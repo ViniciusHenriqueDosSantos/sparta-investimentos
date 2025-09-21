@@ -2,9 +2,8 @@ from pydantic import BaseModel, Field, field_validator
 from typing import List
 
 class CotaData(BaseModel):
-    """Dados da cota"""
-    valor: float = Field(..., gt=0, description="Valor da cota")
-    quantidades: List[float] = Field(..., min_length=1, description="Quantidades por investidor")
+    valor: float = Field(..., gt=0, description="Valor unitário da cota do fundo")
+    quantidades: List[float] = Field(..., min_length=1, description="Quantidades de cotas por investidor")
     
     @field_validator('quantidades')
     @classmethod
@@ -23,9 +22,8 @@ class CotaData(BaseModel):
         }
 
 class FeeCalculationRequest(BaseModel):
-    """Requisição de cálculo"""
-    taxa: float = Field(..., ge=0, description="Taxa (>= 0.0)")
-    cotas: List[CotaData] = Field(..., min_length=1, description="Dados das cotas")
+    taxa: float = Field(..., ge=0, description="Taxa de administração anual (>= 0.0)")
+    cotas: List[CotaData] = Field(..., min_length=1, description="Dados das cotas do fundo por período")
     
     @field_validator('cotas')
     @classmethod
@@ -56,5 +54,4 @@ class FeeCalculationRequest(BaseModel):
         }
 
 class FeeCalculationResponse(BaseModel):
-    """Resposta do cálculo"""
-    fees: List[float] = Field(..., description="Taxas por investidor")
+    fees: List[float] = Field(..., description="Taxas de administração calculadas por investidor")
