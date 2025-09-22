@@ -22,7 +22,7 @@ def main():
     command = sys.argv[1].lower()
     
     if command == "start":
-        run_command("uvicorn main:app --host 0.0.0.0 --port 8000 --reload", 
+        run_command("python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload", 
                    "Iniciando servidor da API Sparta")
     
     elif command == "build":
@@ -31,7 +31,7 @@ def main():
         print("Inicializando banco de dados...")
         run_command("python init_database.py", "Inicializando banco de dados")
         print("Iniciando servidor...")
-        run_command("uvicorn main:app --host 0.0.0.0 --port 8000 --reload", 
+        run_command("python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload", 
                    "Iniciando servidor da API Sparta")
     
     elif command == "install":

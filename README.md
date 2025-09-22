@@ -10,7 +10,7 @@ API REST para calcular taxas de administração de fundos de investimento e gere
 
 ### Opção 1: Script Automático
 ```bash
-python run.py build    # Instala dependências, inicializa banco e inicia
+python run.py build    # Instala dependências, inicializa banco e inicia, RECOMENDADO
 python run.py start    # Apenas inicia
 python run.py init     # Inicializa apenas o banco de dados
 ```
@@ -19,10 +19,10 @@ python run.py init     # Inicializa apenas o banco de dados
 ```bash
 pip install -r requirements.txt
 python init_database.py  # Inicializa banco com dados de exemplo
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-**Acesse**: http://localhost:8000/docs (documentação feita com swagger, pode ser usada para testes)
+**Acesse**: <a href="http://localhost:8000/docs" target="_blank">http://localhost:8000/docs</a> (documentação feita com swagger, pode ser usada para testes)
 
 ## Rotas Disponíveis
 
