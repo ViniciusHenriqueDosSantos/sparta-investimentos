@@ -108,11 +108,9 @@ async def get_movements_by_investor(investor_id: int, db: Session = Depends(get_
 
 @app.get("/investors/{investor_id}/portfolio",
          summary="Portfólio do Investidor",
-         description="Obtém o resumo do portfólio de um investidor em uma data específica")
-async def get_investor_portfolio(investor_id: int, as_of_date: str, db: Session = Depends(get_db)):
-    from datetime import datetime
-    as_of_date_dt = datetime.fromisoformat(as_of_date.replace('Z', '+00:00'))
-    return await movement_controller.get_investor_portfolio_summary(investor_id, as_of_date_dt, db)
+         description="Obtém o resumo do portfólio de um investidor")
+async def get_investor_portfolio(investor_id: int, db: Session = Depends(get_db)):
+    return await movement_controller.get_investor_portfolio_summary(investor_id, db)
 
 @app.post("/calculate-fees/by-date",
           summary="Calcular Taxas por Data",
@@ -122,6 +120,6 @@ async def calculate_fees_by_date(request: FeeCalculationByDateRequest, db: Sessi
 
 @app.post("/calculate-fees/by-investor",
           summary="Calcular Taxas por Investidor",
-          description="Calcula taxas de administração para um investidor específico em uma data")
+          description="Calcula taxas de administração para um investidor específico baseado em todas as movimentações")
 async def calculate_fees_by_investor(request: FeeCalculationByInvestorRequest, db: Session = Depends(get_db)):
     return await portfolio_fee_controller.calculate_fees_by_investor(request, db)

@@ -64,13 +64,11 @@ class MovementController:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Erro ao buscar movimentos do investidor: {str(e)}")
     
-    async def get_investor_portfolio_summary(self, investor_id: int, as_of_date: datetime,
-                                        db: Session) -> dict:
+    async def get_investor_portfolio_summary(self, investor_id: int, db: Session) -> dict:
         try:
-            portfolio = self.movement_service.get_investor_portfolio_summary(db, investor_id, as_of_date)
+            portfolio = self.movement_service.get_investor_portfolio_summary(db, investor_id)
             return {
                 "investor_id": investor_id,
-                "as_of_date": as_of_date,
                 "portfolio": portfolio,
                 "total_stocks": len(portfolio),
                 "total_value": sum(stock['total_value'] for stock in portfolio.values())

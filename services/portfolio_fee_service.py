@@ -29,12 +29,11 @@ class PortfolioFeeService:
     
     def calculate_fees_by_investor(self, db: Session, request: FeeCalculationByInvestorRequest) -> Dict:
         movements = db.query(Movement).filter(
-            Movement.investor_id == request.investor_id,
-            Movement.date_of_occurrence <= request.calculation_date
+            Movement.investor_id == request.investor_id
         ).all()
         
         if not movements:
-            raise ValueError(f"Nenhum movimento encontrado para o investidor {request.investor_id} antes de {request.calculation_date}")
+            raise ValueError(f"Nenhum movimento encontrado para o investidor {request.investor_id}")
         
         investor_fee = self._calculate_investor_fee(movements, request.taxa)
         investor_fee['investor_id'] = request.investor_id
@@ -64,7 +63,7 @@ class PortfolioFeeService:
             'calculation_date': movements[-1].date_of_occurrence if movements else None,
             'taxa': taxa,
             'total_portfolio_value': round(total_portfolio_value, 2),
-            'total_fees': round(total_fees, 4),
+            'total_fees': float(f"{total_fees:.4f}"),
             'movements_count': len(movements),
             'stocks_count': len(stock_values),
             'stock_breakdown': stock_values

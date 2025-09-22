@@ -68,13 +68,10 @@ class MovementService:
         
         return query.order_by(Movement.date_of_occurrence.desc()).all()
     
-    def get_investor_portfolio_summary(self, db: Session, investor_id: int, as_of_date: datetime) -> dict:
-        movements = self.get_movements_by_date_range(
-            db, 
-            datetime.min.replace(year=1900),
-            as_of_date, 
-            investor_id=investor_id
-        )
+    def get_investor_portfolio_summary(self, db: Session, investor_id: int) -> dict:
+        movements = db.query(Movement).filter(
+            Movement.investor_id == investor_id
+        ).order_by(Movement.date_of_occurrence.desc()).all()
         
         portfolio = {}
         for movement in movements:

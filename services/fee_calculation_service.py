@@ -31,4 +31,4 @@ class FeeCalculationService:
                 taxa_diaria = quantidade * valor * taxa
                 taxas_investidores[i] += taxa_diaria
         
-        return [round(taxa / 252, 4) for taxa in taxas_investidores]
+        return [float(f"{taxa / 252:.4f}") for taxa in taxas_investidores]

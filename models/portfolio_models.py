@@ -76,11 +76,10 @@ class FeeCalculationByDateRequest(BaseModel):
     def validate_taxa(cls, v):
         if v < 0:
             raise ValueError('Taxa deve ser não negativa')
-        return round(v, 4)
+        return v
 
 class FeeCalculationByInvestorRequest(BaseModel):
     investor_id: int = Field(..., description="ID do investidor para o cálculo")
-    calculation_date: datetime = Field(..., description="Data para o cálculo das taxas de administração")
     taxa: float = Field(..., ge=0, description="Taxa de administração anual (>= 0.0)")
     
     @field_validator('taxa')
@@ -88,7 +87,7 @@ class FeeCalculationByInvestorRequest(BaseModel):
     def validate_taxa(cls, v):
         if v < 0:
             raise ValueError('Taxa deve ser não negativa')
-        return round(v, 4)
+        return v
 
 
 class InvestorListResponse(BaseModel):
